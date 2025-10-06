@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave Mujica - 展示界面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #6F0000;
+            --secondary-color: #2c2c2c;
+            --accent-color: #a83232;
+            --text-color: #e0e0e0;
+            --dark-bg: #1a1a1a;
+            --gold: #d4af37;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 页眉样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4a0000 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        
+        .band-name {
+            font-family: 'Cinzel', serif;
+            font-size: 4.5rem;
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        .band-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+        
+        /* 轮播图样式 - 改进 */
+        .carousel {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            height: 500px;
+        }
+        
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--secondary-color);
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            color: white;
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+        
+        .carousel-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .carousel-indicator.active {
+            background: white;
+        }
+        
+        /* 导航栏样式 */
+        nav {
+            background-color: rgba(44, 44, 44, 0.95);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+            max-width: 200px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+        }
+        
+        /* 通用部分样式 */
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+        
+        /* 成员介绍区域样式 - 改进 */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .member-card {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .member-img {
+            width: 100%;
+            height: 580px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--secondary-color);
+        }
+        
+        .member-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        
+        .member-card:hover .member-img img {
+            transform: scale(1.05);
+        }
+        
+        .member-info {
+            padding: 1.8rem;
+            position: relative;
+        }
+        
+        .member-name {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .member-role {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .member-story {
+            font-size: 0.95rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 合照区域样式 - 改进 */
+        .group-photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .photo-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            background-color: var(--secondary-color);
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .photo-card img {
+            width: 100%;
+            height: 340px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .photo-caption {
+            padding: 1.5rem;
+            background-color: var(--secondary-color);
+        }
+        
+        .photo-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .photo-desc {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+        
+        /* 新增图片画廊样式 */
+        .gallery-container {
+            margin-top: 3rem;
+        }
+        
+        .gallery-section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold);
+        }
+        
+        .gallery-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--secondary-color);
+        }
+        
+        .gallery-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .gallery-scroll::-webkit-scrollbar-track {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .gallery-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .gallery-item {
+            flex: 0 0 auto;
+            width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            background-color: var(--secondary-color);
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .gallery-caption {
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        /* 乐队故事区域样式 */
+        .band-story-section {
+            background-color: rgba(44, 44, 44, 0.5);
+        }
+        
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+        
+        .story-highlight {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--gold);
+            margin: 2rem 0;
+        }
+        
+        .highlight-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        /* 时间线样式 */
+        .timeline {
+            max-width: 800px;
+            margin: 3rem auto;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-color);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-date {
+            flex: 0 0 150px;
+            text-align: center;
+            padding: 10px;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+            margin: 0 20px;
+            z-index: 1;
+        }
+        
+        .timeline-year {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .timeline-month {
+            font-size: 1.1rem;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background-color: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo-img {
+            height: 50px;
+            width: auto;
+            max-width: 250px;
+        }
+        
+        .footer-about {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .band-name {
+                font-size: 3rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .group-photos {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+            }
+            
+            .timeline-date {
+                flex: 0 0 100px;
+                margin-right: 20px;
+                margin-left: 0;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .member-img {
+                height: 450px;
+            }
+            
+            .photo-card img {
+                height: 250px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        
+        /* 模态框样式 - 改进 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 80%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 2001;
+        }
+        
+        .modal-caption {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+        
+        .modal-nav-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .modal-nav-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* 音乐播放器样式 */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(44, 44, 44, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            width: 300px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .music-player.minimized {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .music-player.minimized .player-controls,
+        .music-player.minimized .track-info,
+        .music-player.minimized .volume-control,
+        .music-player.minimized .playlist {
+            display: none;
+        }
+        
+        .music-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .music-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+        
+        .control-btn:hover {
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .play-pause {
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            width: 45px;
+            height: 45px;
+        }
+        
+        .play-pause:hover {
+            background: var(--accent-color);
+        }
+        
+        .track-info {
+            margin-bottom: 15px;
+        }
+        
+        .track-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .track-artist {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+        }
+        
+        .playlist {
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+        
+        .playlist-item {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .playlist-item.active {
+            background: rgba(111, 0, 0, 0.3);
+            color: var(--gold);
+        }
+        
+        .playlist-item i {
+            font-size: 0.8rem;
+        }
+        
+        .minimize-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .minimize-btn:hover {
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <!-- 这里替换为您的logo -->
+                <img src="images/Ave%20Mujica%20c.png" alt="Ave Mujica Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">首页</a></li>
+                <li><a href="#members">成员介绍</a></li>
+                <li><a href="#group-photos">乐队合照</a></li>
+                <li><a href="#band-story">乐队故事</a></li>
+                <li><a href="#gallery">图片画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 首页横幅 -->
+    <header id="home">
+        <div class="container header-content">
+            <h1 class="band-name fade-in">Ave Mujica</h1>
+            <p class="band-subtitle fade-in delay-1">来自《BanG Dream!》企划的神秘交响金属乐队，以戏剧性的表演和哥特风格闻名</p>
+            
+            <!-- 轮播图 -->
+            <div class="carousel fade-in delay-2">
+                <div class="carousel-inner">
+                    <div class="carousel-slide active">
+                        <img src="images/1.png" alt="Ave Mujica 乐队">
+                        <div class="carousel-caption">古堡中的Ave Mujica成员</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="images/2.png" alt="Ave Mujica 演出">
+                        <div class="carousel-caption">造梦之境</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="images/3.png" alt="Ave Mujica 后台">
+                        <div class="carousel-caption">万恶之源</div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="carousel-indicators">
+                    <div class="carousel-indicator active"></div>
+                    <div class="carousel-indicator"></div>
+                    <div class="carousel-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 成员介绍部分 -->
+    <section id="members">
+        <div class="container">
+            <h2 class="section-title">乐队成员</h2>
+            <div class="members-grid">
+                <!-- Doloris -->
+                <div class="member-card fade-in">
+                    <div class="member-img">
+                        <img src="images/Chuying.png" alt="Doloris">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Doloris</h3>
+                        <p class="member-role">主唱 & 吉他 / 三角初华</p>
+                        <p class="member-story">【现实版别搞错了】Doloris是乐队的核心人物，拥有极具感染力的嗓音和出色的吉他演奏技巧。她的舞台表现力极强，能够完美演绎乐队戏剧化的音乐风格。在加入Ave Mujica之前，她曾在多个地下乐队中担任主唱，积累了丰富的表演经验。她的音乐灵感来源于古典文学和哥特艺术，这为乐队的音乐增添了独特的深度和魅力。</p>
+                    </div>
+                </div>
+                
+                <!-- Mortis -->
+                <div class="member-card fade-in delay-1">
+                    <div class="member-img">
+                        <img src="images/Muzimi.png" alt="Mortis">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Mortis</h3>
+                        <p class="member-role">吉他手 / 若叶睦</p>
+                        <p class="member-story">【现实版别搞错了】Mortis负责乐队的吉他演奏部分，以其精湛的技巧和独特的音乐理解著称。她的演奏风格兼具力量与细腻，为乐队音乐增添了丰富的层次。从小学习古典吉他的她，后来转向电吉他，并将古典音乐的复杂性融入金属音乐中。她的即兴演奏能力极强，常常在演出中带来令人惊艳的独奏段落。</p>
+                    </div>
+                </div>
+                
+                <!-- Timoris -->
+                <div class="member-card fade-in delay-2">
+                    <div class="member-img">
+                        <img src="images/Haling.png" alt="Timoris">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Timoris</h3>
+                        <p class="member-role">贝斯手 / 八幡海铃</p>
+                        <p class="member-story">【现实版别搞错了】Timoris是奠定乐队节奏基础的贝斯手，沉稳的演奏为音乐增添了深度。她的低音线条复杂而富有旋律性，是乐队声音的支柱。她曾在音乐学院专攻低音提琴，这使她对低音部分有着独特的理解和掌控力。Timoris不仅是技术精湛的乐手，还是乐队多首作品的编曲者之一。</p>
+                    </div>
+                </div>
+                
+                <!-- Amoris -->
+                <div class="member-card fade-in delay-1">
+                    <div class="member-img">
+                        <img src="images/Miaomeng.png" alt="Amoris">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Amoris</h3>
+                        <p class="member-role">鼓手 / 祐天寺若麦</p>
+                        <p class="member-story">【现实版别搞错了】Amoris是乐队的节奏引擎，强劲而富有表现力的鼓点推动着音乐前进。她的演奏充满戏剧性变化，完美契合乐队风格。她从小接受严格的古典打击乐训练，后来转向摇滚和金属鼓演奏。Amoris的鼓点不仅提供节奏基础，还常常作为音乐的情绪引导，在关键时刻带来强烈的冲击力。</p>
+                    </div>
+                </div>
+                
+                <!-- Oblivionis -->
+                <div class="member-card fade-in delay-2">
+                    <div class="member-img">
+                        <img src="images/Saki.png" alt="Oblivionis">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Oblivionis</h3>
+                        <p class="member-role">键盘手 / 丰川祥子</p>
+                        <p class="member-story">【现实版别搞错了】Oblivionis用键盘为乐队音乐增添丰富层次和氛围感的关键成员。她的演奏创造出宏大而神秘的音景，是乐队独特风格的重要组成部分。她精通多种键盘乐器和合成器，能够创造出从古典管风琴到现代电子音效的多种音色。Oblivionis还负责乐队的和声编排，为Doloris的主唱提供完美的和声支持。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 乐队合照部分 -->
+    <section id="group-photos">
+        <div class="container">
+            <h2 class="section-title">乐队合照+明日方舟</h2>
+            <div class="group-photos">
+                <div class="photo-card fade-in">
+                    <img src="images/1.png" alt="Ave Mujica 舞台表演">
+                    <div class="photo-caption">
+                        <h3 class="photo-title">古堡中的Ave Mujica成员</h3>
+                        <p class="photo-desc">明日方舟联动图片，灰常好看！</p>
+                    </div>
+                </div>
+                
+                <div class="photo-card fade-in delay-1">
+                    <img src="images/2.png" alt="Ave Mujica 后台花絮">
+                    <div class="photo-caption">
+                        <h3 class="photo-title">造梦之境</h3>
+                        <p class="photo-desc">莫菲斯不会是祥子的对手，祥子才是梦境中的主人，这是两面性的选择，祥子！</p>
+                    </div>
+                </div>
+                
+                <div class="photo-card fade-in delay-2">
+                    <img src="images/3.png" alt="Ave Mujica 录音室">
+                    <div class="photo-caption">
+                        <h3 class="photo-title">万恶之源</h3>
+                        <p class="photo-desc">萨卡兹的身份不会是祥子的阻碍，这一点，Mujica的大家都会相信！</p>
+                    </div>
+                </div>
+                
+                <div class="photo-card fade-in delay-1">
+                    <img src="images/4.png" alt="Ave Mujica 宣传照">
+                    <div class="photo-caption">
+                        <h3 class="photo-title">邦游五神人初显神通</h3>
+                        <p class="photo-desc">遗忘，祥子正在遗忘那痛苦的过往，接下来，Ave Mujica堂堂登场。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 新增图片画廊部分 -->
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title">神人画廊</h2>
+            <div class="gallery-container">
+                <h3 class="gallery-section-title">成员个人照</h3>
+                <div class="gallery-scroll">
+                    <div class="gallery-item">
+                        <img src="images/Chuying.png" alt="Doloris">
+                        <div class="gallery-caption">Doloris - 主唱 & 吉他</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Muzimi.png" alt="Mortis">
+                        <div class="gallery-caption">Mortis - 吉他手</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Haling.png" alt="Timoris">
+                        <div class="gallery-caption">Timoris - 贝斯手</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Miaomeng.png" alt="Amoris">
+                        <div class="gallery-caption">Amoris - 鼓手</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Saki.png" alt="Oblivionis">
+                        <div class="gallery-caption">Oblivionis - 键盘手</div>
+                    </div>
+                </div>
+                
+                <h3 class="gallery-section-title" style="margin-top: 3rem;">乐队合照</h3>
+                <div class="gallery-scroll">
+                    <div class="gallery-item">
+                        <img src="images/1.png" alt="Ave Mujica 舞台表演">
+                        <div class="gallery-caption">古堡邂逅</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/2.png" alt="Ave Mujica 演出">
+                        <div class="gallery-caption">易碎的梦境</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/3.png" alt="Ave Mujica 后台">
+                        <div class="gallery-caption">餐桌礼仪</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/4.png" alt="Ave Mujica 宣传照">
+                        <div class="gallery-caption">初次曝光</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 乐队故事部分 -->
+    <section id="band-story" class="band-story-section">
+        <div class="container">
+            <h2 class="section-title">现实乐队故事</h2>
+            
+            <div class="story-content">
+                <div class="story-text fade-in">
+                    <p>Ave Mujica成立于2020年，是一支来自《BanG Dream!》企划的交响金属乐队。乐队名字"Ave Mujica"在拉丁语中意为"万福穆吉卡"，反映了她们音乐中神秘而庄严的特质。</p>
+                    
+                    <p>乐队最初由主唱（三角初华）Doloris和吉他手（若叶睦）Mortis在音乐学校相识并组建，随后吸引了贝斯手（八幡海铃）Timoris、鼓手（祐天寺若麦）Amoris和键盘手（丰川祥子）Oblivionis加入，形成了完整的五人阵容。她们共同追求一种融合了古典音乐复杂性和金属音乐力量的独特声音。</p>
+                </div>
+                
+                <div class="story-highlight fade-in delay-1">
+                    <h3 class="highlight-title">音乐风格与理念</h3>
+                    <p>Ave Mujica的音乐风格主要融合了交响金属、哥特金属和力量金属的元素，以其戏剧性的编曲、复杂的和声和深沉的歌词著称。乐队成员都接受过古典音乐训练，这使她们的音乐在保持金属乐力量的同时，也具有古典音乐的精致与深度。</p>
+                    
+                    <p>乐队的歌词多探讨存在主义、神秘主义和人类情感的黑暗面，常常引用神话、文学和哲学概念。她们的舞台表演以其戏剧化的服装、精心设计的灯光和成员们充满表现力的表演而闻名。</p>
+                </div>
+                
+                <div class="story-text fade-in delay-2">
+                    <p>在成立后的几年里，Ave Mujica迅速在日本地下音乐界崭露头角，她们的首张EP《月光下的安魂曲》获得了评论界的一致好评。随后发行的专辑《深渊回响》和《黑暗序曲》进一步巩固了她们在交响金属领域的地位。</p>
+                    
+                    <p>乐队以其独特的音乐风格和强烈的视觉形象吸引了一批忠实的追随者，被称为"面具乐队"，因为成员们在演出和宣传中常常佩戴具有象征意义的面具，增加了她们音乐的神秘感。</p>
+                </div>
+                
+                <!-- 时间线 -->
+                <div class="timeline">
+                    <h3 class="section-title" style="font-size: 2rem; margin-bottom: 2rem;">乐队历程</h3>
+                    
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-month">3月</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">乐队成立</h4>
+                            <p>Doloris和Mortis在音乐学校相遇并决定组建一支融合古典与金属的乐队，Ave Mujica正式成立。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in delay-1">
+                        <div class="timeline-date">
+                            <div class="timeline-year">2021</div>
+                            <div class="timeline-month">7月</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">首张EP发布</h4>
+                            <p>乐队发行首张EP《月光下的安魂曲》，在地下音乐界引起关注，独特的音乐风格获得好评。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in delay-2">
+                        <div class="timeline-date">
+                            <div class="timeline-year">2022</div>
+                            <div class="timeline-month">11月</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">首次巡回演出</h4>
+                            <p>Ave Mujica进行了首次日本小型巡回演出，在东京、大阪和名古屋等地表演，获得了热烈的反响。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item fade-in delay-1">
+                        <div class="timeline-date">
+                            <div class="timeline-year">2023</div>
+                            <div class="timeline-month">9月</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">新专辑发布</h4>
+                            <p>乐队发布备受期待的全长专辑《黑暗序曲》，首周销量突破纪录，标志着她们在音乐界的突破。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <!-- 这里替换为您的logo -->
+                        <img src="images/Ave Mujica c.png" alt="Ave Mujica Logo" class="footer-logo-img">
+                    </div>
+                    <p class="footer-about">来自《BanG Dream!》企划的神秘交响金属乐队，以戏剧性的表演和哥特风格闻名。</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#members">成员介绍</a></li>
+                        <li><a href="#group-photos">乐队合照</a></li>
+                        <li><a href="#gallery">图片画廊</a></li>
+                        <li><a href="#band-story">乐队故事</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">关于我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">乐队历史</a></li>
+                        <li><a href="#">音乐作品</a></li>
+                        <li><a href="#">演出记录</a></li>
+                        <li><a href="#">媒体报道</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ave Mujica - 《BanG Dream!》企划. 本网站为星泉Naiku制作，非官方</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 图片模态框 -->
+    <div class="modal" id="imageModal">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <div class="modal-nav">
+            <button class="modal-nav-btn" id="modalPrev"><i class="fas fa-chevron-left"></i></button>
+            <button class="modal-nav-btn" id="modalNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="modal-content">
+            <img src="" alt="" class="modal-img" id="modalImg">
+        </div>
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+    
+    <!-- 音乐播放器 -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-header">
+            <h3 class="music-title">Ave Mujica</h3>
+            <button class="minimize-btn" id="minimizeBtn">
+                <i class="fas fa-window-minimize"></i>
+            </button>
+        </div>
+        <div class="player-controls">
+            <button class="control-btn" id="prevBtn">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-btn play-pause" id="playPauseBtn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-btn" id="nextBtn">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+        <div class="track-info">
+            <div class="track-name" id="trackName">凑企鹅持石去吧</div>
+            <div class="track-artist" id="trackArtist">Ave Mujica</div>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-down"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+            <i class="fas fa-volume-up"></i>
+        </div>
+        <div class="playlist">
+            <div class="playlist-item active" data-src="music/KiLLKiSS - Ave Mujica.flac">
+                <i class="fas fa-music"></i>
+                <span>KiLLKiSS</span>
+            </div>
+            <div class="playlist-item" data-src="music/天球(そら)のMúsica - Ave Mujica.flac">
+                <i class="fas fa-music"></i>
+                <span>天球(そら)のMúsica</span>
+            </div>
+            <div class="playlist-item" data-src="music/in your blue eyes - Ave Mujica_塞壬唱片-MSR.flac">
+                <i class="fas fa-music"></i>
+                <span>in your blue eyes</span>
+            </div>
+            <div class="playlist-item" data-src="music/春日影 (MyGO!!!!! ver.) - MyGO!!!!!.flac">
+                <i class="fas fa-music"></i>
+                <span>春日影</span>
+            </div>
+            <div class="playlist-item" data-src="music/顔 - Ave Mujica.flac">
+                <i class="fas fa-music"></i>
+                <span>顔</span>
+            </div>
+            <div class="playlist-item" data-src="music/Ave Mujica - Ave Mujica.flac">
+                <i class="fas fa-music"></i>
+                <span>Ave Mujica</span>
+            </div>
+            <div class="playlist-item" data-src="music/next to you - Øneheart.flac">
+                <i class="fas fa-music"></i>
+                <span>next to you</span>
+            </div>
+            <div class="playlist-item" data-src="music/poster boy - 2hollis.flac">
+                <i class="fas fa-music"></i>
+                <span>poster boy</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 轮播图功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            let currentSlide = 0;
+            
+            // 显示指定幻灯片
+            function showSlide(index) {
+                // 隐藏所有幻灯片
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // 显示当前幻灯片
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlide = index;
+            }
+            
+            // 下一张幻灯片
+            function nextSlide() {
+                let nextIndex = (currentSlide + 1) % slides.length;
+                showSlide(nextIndex);
+            }
+            
+            // 上一张幻灯片
+            function prevSlide() {
+                let prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prevIndex);
+            }
+            
+            // 添加事件监听器
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // 为指示器添加点击事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => showSlide(index));
+            });
+            
+            // 自动轮播
+            setInterval(nextSlide, 5000);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 导航栏高亮
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if(pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // 图片模态框 - 改进版
+        const galleryItems = document.querySelectorAll('.member-img, .photo-card img, .gallery-item img');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        
+        let currentImageIndex = 0;
+        const allImages = Array.from(galleryItems);
+        
+        function openModal(index) {
+            currentImageIndex = index;
+            const imgSrc = allImages[currentImageIndex].getAttribute('src');
+            const imgAlt = allImages[currentImageIndex].getAttribute('alt');
+            const parentElement = allImages[currentImageIndex].closest('.member-card, .photo-card, .gallery-item');
+            let caption = '';
+            
+            if (parentElement) {
+                const nameElement = parentElement.querySelector('.member-name, .photo-title, .gallery-caption');
+                if (nameElement) {
+                    caption = nameElement.textContent;
+                }
+            }
+            
+            modalImg.setAttribute('src', imgSrc);
+            modalImg.setAttribute('alt', imgAlt);
+            modalCaption.textContent = caption || imgAlt;
+            modal.style.display = 'flex';
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % allImages.length;
+            openModal(currentImageIndex);
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+            openModal(currentImageIndex);
+        }
+        
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                openModal(index);
+            });
+        });
+        
+        modalClose.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        modalNext.addEventListener('click', nextImage);
+        modalPrev.addEventListener('click', prevImage);
+        
+        modal.addEventListener('click', function(e) {
+            if(e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // 键盘导航
+        document.addEventListener('keydown', function(e) {
+            if (modal.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                } else if (e.key === 'ArrowRight') {
+                    nextImage();
+                } else if (e.key === 'ArrowLeft') {
+                    prevImage();
+                }
+            }
+        });
+        
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // 音乐播放器功能
+        const musicPlayer = document.getElementById('musicPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const minimizeBtn = document.getElementById('minimizeBtn');
+        const trackName = document.getElementById('trackName');
+        const trackArtist = document.getElementById('trackArtist');
+        const playlistItems = document.querySelectorAll('.playlist-item');
+        
+        // 创建音频元素
+        const audio = new Audio();
+        audio.volume = volumeSlider.value;
+        
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        
+        // 初始化播放列表
+        const playlist = Array.from(playlistItems).map(item => ({
+            name: item.querySelector('span').textContent,
+            src: item.getAttribute('data-src'),
+            element: item
+        }));
+        
+        // 加载并播放指定曲目
+        function loadTrack(index) {
+            currentTrackIndex = index;
+            const track = playlist[currentTrackIndex];
+            
+            audio.src = track.src;
+            trackName.textContent = track.name;
+            trackArtist.textContent = 'Ave Mujica';
+            
+            // 更新播放列表高亮
+            playlistItems.forEach(item => item.classList.remove('active'));
+            track.element.classList.add('active');
+            
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+        
+        // 播放/暂停功能
+        function togglePlayPause() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        // 下一曲
+        function nextTrack() {
+            let nextIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(nextIndex);
+        }
+        
+        // 上一曲
+        function prevTrack() {
+            let prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(prevIndex);
+        }
+        
+        // 事件监听器
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', prevTrack);
+        nextBtn.addEventListener('click', nextTrack);
+        
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+        });
+        
+        minimizeBtn.addEventListener('click', function() {
+            musicPlayer.classList.toggle('minimized');
+            if (musicPlayer.classList.contains('minimized')) {
+                minimizeBtn.innerHTML = '<i class="fas fa-window-restore"></i>';
+            } else {
+                minimizeBtn.innerHTML = '<i class="fas fa-window-minimize"></i>';
+            }
+        });
+        
+        // 播放列表项点击事件
+        playlistItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                loadTrack(index);
+                if (!isPlaying) {
+                    togglePlayPause();
+                }
+            });
+        });
+        
+        // 音频结束时自动播放下一曲
+        audio.addEventListener('ended', nextTrack);
+        
+        // 加载第一首曲目
+        loadTrack(0);
+    </script>
+</body>
+</html>
